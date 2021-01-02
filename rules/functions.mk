@@ -305,6 +305,7 @@ define povray ?=
 	cat <<- EOF < $2 < $3 > $$headers
 		#version 3.7;
 		#declare SceneLight = $(SCENELIGHT);
+		global_settings { assumed_gamma 1.0 }
 	EOF
 	while pgrep povray > /dev/null; do sleep 2.5; done
 	$(POVRAY) $(POVFLAGS) -I$1 -HI$$headers -W$5 -H$6 -Q$(call scale,11,4) -O$4
