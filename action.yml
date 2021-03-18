@@ -16,7 +16,9 @@ outputs:
 runs:
   using: docker
   image: docker://ghcr.io/sile-typesetter/casile:v0.4.6
+  entrypoint: sh -c
   args:
+    - casile
     - ${{ inputs.args }}
 branding:
   icon: printer
