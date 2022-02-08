@@ -2,10 +2,18 @@ use clap::{AppSettings, Parser, Subcommand};
 use std::path;
 
 // FTL: help-description
-/// The command line interface to the CaSILE toolkit,
-/// a publishing workflow employing SILE and other wizardry.
+/// The `casile` command is the CLI interface providing access to CaSILE functionality. Most
+/// functions are accessed through subcommands.
+///
+/// The CaSILE toolkit is a build system that glues together a large collection of tools into
+/// a cohesive system that automates book publishing from start to finish. The concept is to take
+/// very simple, easily edited content and configuration files as input and turn them into all the
+/// artifacts of a finished product with as little manual intervention as possible. Plain text
+/// document formats and a small amount of meta data are transformed automatically into press ready
+/// PDFs, E-Books, and rendered promotional materials.
 #[derive(Parser, Debug)]
 #[clap(bin_name = "casile")]
+#[clap(about)]
 #[clap(setting = AppSettings::InferSubcommands)]
 pub struct Cli {
     // FTL: help-flags-debug
