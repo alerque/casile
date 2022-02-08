@@ -94,6 +94,7 @@ dependencies = [
  "assert_cmd",
  "clap",
  "clap_complete",
+ "clap_mangen",
  "colored",
  "config",
  "fluent",
@@ -179,6 +180,16 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "clap_mangen"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8c818a49448255e9ae215fbb77ce61f50332655791b6bd49d95c9108854c3c27"
+dependencies = [
+ "clap",
+ "roff",
 ]
 
 [[package]]
@@ -837,6 +848,12 @@ dependencies = [
  "quote",
  "syn",
 ]
+
+[[package]]
+name = "roff"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b833d8d034ea094b1ea68aa6d5c740e0d04bad9d16568d08ba6f76823a114316"
 
 [[package]]
 name = "rust-embed"

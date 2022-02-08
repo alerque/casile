@@ -51,6 +51,7 @@ unic-langid = "0.9.0"
 [build-dependencies]
 clap = "3.0.14"
 clap_complete = "3.0.6"
+clap_mangen = "0.1.0"
 
   [build-dependencies.vergen]
   version = "6.0.2"
