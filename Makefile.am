@@ -100,6 +100,7 @@ CARGO_ENV = CARGO_TARGET_DIR=@abs_top_builddir@/target
 RUST_BIN = @abs_top_builddir@/target/@RUST_TARGET_SUBDIR@/$(PACKAGE_NAME)
 _RUST_OUT = @abs_top_builddir@/target/@RUST_TARGET_SUBDIR@/.cargo_out_dir
 COMPLETIONS_OUT_DIR = completions
+MANPAGE_OUT_DIR = manpage
 
 if ENABLE_BASH_COMPLETION
 bashcompletiondir = $(BASH_COMPLETION_DIR)
@@ -118,6 +119,9 @@ zshcompletiondir = $(ZSH_COMPLETION_DIR)
 nodist_zshcompletion_DATA = $(COMPLETIONS_OUT_DIR)/_$(TRANSFORMED_PACKAGE_NAME)
 CLEANFILES += $(nodist_zshcompletion_DATA)
 endif
+
+nodist_man_MANS = $(MANPAGE_OUT_DIR)/$(TRANSFORMED_PACKAGE_NAME).1
+CLEANFILES += $(nodist_man_MANS)
 
 export CASILE_VERSION = v$(VERSION)
 
@@ -148,6 +152,9 @@ $(COMPLETIONS_OUT_DIR)/_$(TRANSFORMED_PACKAGE_NAME).ps1: $(RUST_BIN)
 
 $(COMPLETIONS_OUT_DIR)/_$(TRANSFORMED_PACKAGE_NAME): $(RUST_BIN)
 	install -D $$(cat $(_RUST_OUT))/$(COMPLETIONS_OUT_DIR)/_$(PACKAGE_NAME) $@
+
+$(MANPAGE_OUT_DIR)/$(TRANSFORMED_PACKAGE_NAME).1: $(RUST_BIN)
+	install -D $$(cat $(_RUST_OUT))/$(MANPAGE_OUT_DIR)/$(PACKAGE_NAME).1 $@
 
 $(_RUST_OUT) $(RUST_BIN): $(casile_SOURCES) $(EXTRA_casile_SOURCES) clean-embedded-assets
 	cd $(top_srcdir)
