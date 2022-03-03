@@ -3,13 +3,13 @@ use crate::status;
 use crate::Result;
 
 use config::{Config, Environment, File, FileFormat};
-use std::{env, sync};
+use std::{env, sync::RwLock};
 
 static ERROR_CONFIG_WRITE: &str = "Unable to gain write lock on global app config";
 static ERROR_CONFIG_READ: &str = "Unable to gain read lock on global app config";
 
 lazy_static! {
-    pub static ref CONF: sync::RwLock<Config> = sync::RwLock::new(Config::default());
+    pub static ref CONF: RwLock<Config> = RwLock::new(Config::default());
 }
 
 impl CONF {
