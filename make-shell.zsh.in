@@ -33,6 +33,8 @@ local process_recipe() {
   pre_hook $target
   {
     (
+      local free=$(free --kilo | awk '/^Mem:/ { print $4 }')
+      ulimit -Sv $(($free/100*90))
       set -e
       set -o nobadpattern
       [[ ! -v _debug ]] || set -x
