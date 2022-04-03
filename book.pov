@@ -19,8 +19,10 @@ global_settings {
 		minimum_reuse 0.005
 		maximum_reuse 0.2
 		brightness 1
-		adc_bailout 0.005
+		adc_bailout 1/10
 	}
+	max_trace_level 10
+	adc_bailout 1/20
 }
 
 #declare CoverThickness = 0.004;
