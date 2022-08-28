@@ -190,7 +190,7 @@ function package:registerCommands ()
     local double = SU.boolean(options.double, not CASILE.isScreenLayout())
     local count = 0
     local pageHook = function () count = count + 1 end
-    SILE.typesetter:registerPageEndHook(pageHook)
+    self.class:registerHook("newpage", pageHook)
     repeat
       SILE.typesetter:leaveHmode()
       if count > 0 then
