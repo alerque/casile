@@ -6,43 +6,32 @@ return function (class)
 
     class.defaultFrameset = {
       content = {
-        left = "22.5mm",
-        right = "100%pw-15mm",
-        top = "20mm",
+        left = "left(page) + 22.5mm",
+        right = "right(page) - 15mm",
+        top = "top(page) + 20mm",
         bottom = "top(footnotes)"
       },
       runningHead = {
         left = "left(content)",
         right = "right(content)",
-        top = "top(content)-8mm",
-        bottom = "top(content)-2mm"
+        top = "top(page) + 12mm",
+        bottom = "top(page) + 18mm"
       },
       footnotes = {
         left = "left(content)",
         right = "right(content)",
         height = "0",
-        bottom = "100%ph-18mm"
+        bottom = "bottom(page) - 18mm"
       },
       folio = {
         left = "left(content)",
         right = "right(content)",
-        top = "100%ph-12mm",
+        top = "bottom(page) - 12mm",
         height = "6mm"
       }
     }
 
-    class:loadPackage("masters", {{
-      id = "right",
-      firstContentFrame = "content",
-      frames = class.defaultFrameset
-    }})
-
-    class:loadPackage("twoside", {
-      oddPageMaster = "right",
-      evenPageMaster = "left"
-    })
-
-    SILE.setCommandDefaults("imprint:font", { size = "8.5pt" })
+    SILE.setCommandDefaults("imprint:font", { size = "6.5pt" })
 
     -- Hack to avoid SILE bug in print editions
     -- See https://github.com/simoncozens/sile/issues/355

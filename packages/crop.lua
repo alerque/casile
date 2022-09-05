@@ -3,55 +3,62 @@ local base = require("packages.base")
 local package = pl.class(base)
 package._name = "crop"
 
-local bleed = 3 * 2.83465
-local trim = 10 * 2.83465
-local len = trim - bleed
+local mm = 2.83465
+local bleed = 3 * mm
+local trim = 10 * mm
+local len
 
 local outcounter, cropbinding
 
-local function reconstrainFrameset (fs)
-  for n,f in pairs(fs) do
-    if n ~= "page" then
-      if f:isAbsoluteConstraint("right") then
-        f.constraints.right = "left(page) + (" .. f.constraints.right .. ")"
+local function reconstrainFrameset (frameset, trim)
+  for id, frame in pairs(frameset) do
+    if id ~= "page" then
+      if frame:isAbsoluteConstraint("left") then
+        -- frame:constrain("left", ("(%s) + %s"):format(frame.constraints.left, trim))
+        -- frame.constraints.left = ("(%s) + %s"):format(frame.constraints.left, trim)
+        -- frame.constraints.left = ("left(page) + (%s)"):format(frame.constraints.left)
       end
-      if f:isAbsoluteConstraint("left") then
-        f.constraints.left = "left(page) + (" .. f.constraints.left .. ")"
+      if not frame:isAbsoluteConstraint("right") then
+        -- frame:constrain("right", ("(%s) + %s"):format(frame.constraints.right, trim))
+        -- frame.constraints.right = ("(%s) + %s"):format(frame.constraints.right, trim)
+        -- frame.constraints.right = ("left(page) + (%s)"):format(frame.constraints.right)
       end
-      if f:isAbsoluteConstraint("top") then
-        f.constraints.top = "top(page) + (" .. f.constraints.top .. ")"
+      if not frame:isAbsoluteConstraint("top") then
+        -- frame:constrain("top", ("(%s) + %s"):format(frame.constraints.top, trim))
+        -- frame.constraints.top = ("(%s) + %s"):format(frame.constraints.top, trim)
+        -- frame.constraints.top = ("top(page) + (%s)"):format(frame.constraints.top)
       end
-      if f:isAbsoluteConstraint("bottom") then
-        f.constraints.bottom = "top(page) + (" .. f.constraints.bottom .. ")"
+      if not frame:isAbsoluteConstraint("bottom") then
+        -- frame:constrain("bottom", ("(%s) - %s"):format(frame.constraints.bottom, trim))
+        -- frame.constraints.bottom = ("(%s) + %s"):format(frame.constraints.bottom, trim)
+        -- frame.constraints.bottom = ("top(page) + (%s)"):format(frame.constraints.bottom)
       end
-      f:invalidate()
+      frame:invalidate()
     end
   end
 end
 
-local function _setupCrop (args)
+function package:_setupCrop (args)
   if args then
     bleed = args.bleed or bleed
     trim = args.trim or trim
-    len = trim - bleed
   end
+  len = trim - bleed
   local papersize = SILE.documentState.paperSize
   local w = papersize[1] + (trim * (cropbinding and 2 or 2))
   local h = papersize[2] + (trim * 2)
-  local oldsize = SILE.documentState.paperSize
   SILE.documentState.paperSize = SILE.paperSizeParser(w .. "pt x " .. h .. "pt")
   local page = SILE.getFrame("page")
-  page:constrain("right", oldsize[1] + trim)
   page:constrain("left", trim)
-  page:constrain("bottom", oldsize[2] + trim)
+  page:constrain("right", page.constraints.right + trim)
   page:constrain("top", trim)
+  page:constrain("bottom", page.constraints.bottom + trim)
   if SILE.scratch.masters then
-    for _, v in pairs(SILE.scratch.masters) do
-      reconstrainFrameset(v.frames)
+    for _, master in pairs(SILE.scratch.masters) do
+      reconstrainFrameset(master.frames, trim)
     end
-  else
-    reconstrainFrameset(SILE.documentState.documentClass.pageTemplate.frames)
   end
+  page:invalidate()
   if SILE.typesetter and SILE.typesetter.frame then SILE.typesetter.frame:init() end
 end
 
@@ -98,7 +105,7 @@ function package:_init (args)
 
   outcounter = 1
   cropbinding = self.class.options.binding == "stapled"
-  _setupCrop(args)
+  self:_setupCrop(args)
 
   self.class:registerHook("endpage", _outputCropMarks)
 
