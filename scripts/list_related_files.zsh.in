@@ -1,0 +1,28 @@
+#!@ZSH@
+set -e
+
+cmd=$1
+base=${2/.md}
+
+value() {
+  echo $@
+  exit 0
+}
+
+case $cmd in
+  meta)
+    value $base.yml
+    ;;
+  src)
+    $0 meta $2 | read meta
+    if [[ -f $meta ]] && yq -e 'has("srcid")' $meta >/dev/null; then
+      yq -r .srcid $meta | read srcid
+      if [[ -f $srcid.md ]]; then
+        value $srcid.md
+      fi
+    else
+    fi
+    ;;
+esac
+
+exit 1
