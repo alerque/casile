@@ -252,6 +252,7 @@ DISTFILES ?=
 DISTDIRS ?=
 DISTDIR ?= $(PROJECT)-$(call versioninfo,$(PROJECT))
 
+include $(CASILEDIR)/rules/translation.mk
 include $(CASILEDIR)/rules/utilities.mk
 
 .PHONY: all

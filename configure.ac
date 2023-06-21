@@ -93,9 +93,10 @@ AM_COND_IF([DEPENDENCY_CHECKS], [
     AC_PROG_EGREP
     AC_PROG_MKDIR_P
     AX_PROGVAR([bc])
-    AX_PROGVAR([diff])
-    AX_PROGVAR([cut])
     AX_PROGVAR([curl])
+    AX_PROGVAR([cut])
+    AX_PROGVAR([deepl])
+    AX_PROGVAR([diff])
     AX_PROGVAR([entr])
     AX_PROGVAR([epubcheck])
     AX_PROGVAR([fcconflist], [fc-conflist])
@@ -119,9 +120,9 @@ AM_COND_IF([DEPENDENCY_CHECKS], [
     AX_PROGVAR([pdfjam])
     AX_PROGVAR([pdftk])
     AX_PROGVAR([pgrep])
-    AX_PROGVAR([pwait])
     AX_PROGVAR([podofobox])
     AX_PROGVAR([povray])
+    AX_PROGVAR([pwait])
     AX_PROGVAR([sassc])
     AX_PROGVAR([sile])
     AX_PROGVAR([sort])
