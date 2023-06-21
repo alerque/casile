@@ -1,9 +1,14 @@
-TRANSLATIONSOURCES := $(addprefix $(BUILDDIR)/deepl/,$(call pattern_list,$(SOURCES),.docx))
+DEEPLSOURCES := $(addprefix $(BUILDDIR)/deepl/,$(call pattern_list,$(SOURCES),.docx))
+DEEPLTRANSLATIONS := $(addprefix $(BUILDDIR)/deepl/,$(call pattern_list,$(SOURCES),.docx))
 
-$(TRANSLATIONSOURCES): $(BUILDDIR)/deepl/%.docx: %.docx
-	$(DEEPL) document --from en --to tr $^ $(@D)
+$(DEEPLTRANSLATIONS): $(BUILDDIR)/deepl/%.docx: %.docx
+	$(DEEPL) document --from $(TRANSLATION_SOURCE_LANG) --to $(TRANSLATION_TARGET_LANG) $^ $(@D)
+	mv $(@D)/$^ $@
 
-%-tr.md: $(BUILDDIR)/deepl/%.docx
+%-deepl_tr.md: TRANSLATION_SOURCE_LANG := en
+%-deepl_tr.md: TRANSLATION_TARGET_LANG := tr
+
+%-deepl_tr.md: $(BUILDDIR)/deepl/%.docx
 	$(PANDOC) \
 		$(PANDOCARGS) \
 		$(PANDOCFILTERS) \
