@@ -1,0 +1,25 @@
+#!@ZSH@
+set -e
+
+cmd=$1
+base=${2/.md}
+
+value() {
+  echo $@
+  exit 0
+}
+
+case $cmd in
+  meta)
+    value $base.yml
+    ;;
+  srcid)
+    $0 meta $2 | read meta
+    if [[ -f $meta ]] && yq -e 'has("source")' $meta >/dev/null; then
+      yq -r '[.source[] | select(.type == "bookid")][0].text' $meta | read bookid
+      value $bookid
+    fi
+    ;;
+esac
+
+exit 1

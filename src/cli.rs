@@ -1,6 +1,6 @@
 // use clap::FromArgMatches as _;
 use clap::{Args, Subcommand};
-use std::path;
+use std::{ffi::OsString, path};
 
 // FTL: help-description
 /// The command line interface to the CaSILE toolkit,
@@ -45,6 +45,18 @@ pub enum Commands {
         // FTL: help-subcommand-make-target
         /// Target as defined in CaSILE or project rules
         target: Vec<String>,
+    },
+
+    // FTL: help-subcommand-script
+    /// Run helper script inside CaSILE environment
+    Script {
+        // FTL: help-subcommand-script-name
+        /// Script name as supplied by CaSILE, toolkit, or project
+        name: String,
+
+        // FTL: help-subcommand-script-arguments
+        /// Arguments to pass to script
+        arguments: Vec<OsString>,
     },
 
     // FTL: help-subcommand-setup
