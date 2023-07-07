@@ -45,11 +45,12 @@ _ENV := _WRAPTARGET=false
 # with paths of their own.
 AWK ?= @AWK@
 BC ?= @BC@
-DIFF ?= @DIFF@
 CMP ?= @CMP@
 CURL ?= @CURL@
 CUT ?= @CUT@
+DECASIFY ?= @DECASIFY@
 DEEPL ?= @DEEPL@
+DIFF ?= @DIFF@
 EGREP ?= @EGREP@
 ENTR ?= @ENTR@
 EPUBCHECK ?= @EPUBCHECK@

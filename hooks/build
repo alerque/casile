@@ -9,7 +9,7 @@ RUNTIME_DEPS='bc bcprov curl entr epubcheck fontconfig ghostscript git git-warp-
 ' inkscape java-commons-lang jq kindlegen libertinus-font libgit2 m4 make mdbook moreutils nodejs'\
 ' pandoc-sile-git pcre pdftk podofo-tools poppler povray sassc sile sqlite'\
 ' tex-gyre-fonts texlive ttf-hack yq zint zola zsh'\
-' lua luarocks lua-colors-git lua-filesystem lua-yaml'\
+' lua luarocks lua-decasify lua-colors-git lua-filesystem lua-yaml'\
 ' perl perl-yaml perl-yaml-merge-simple'\
 ' python python-isbnlib python-deepl python-pandocfilters python-pantable python-ruamel-yaml python-usfm2osis-cw-git'\
 ' xcftools xorg-server-xvfb'

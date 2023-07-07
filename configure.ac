@@ -95,6 +95,7 @@ AM_COND_IF([DEPENDENCY_CHECKS], [
     AX_PROGVAR([bc])
     AX_PROGVAR([curl])
     AX_PROGVAR([cut])
+    AX_PROGVAR([decasify])
     AX_PROGVAR([deepl])
     AX_PROGVAR([diff])
     AX_PROGVAR([entr])
@@ -145,6 +146,7 @@ AM_COND_IF([DEPENDENCY_CHECKS], [
     ])
 
     AX_PROG_LUA(5.1, [], [], AC_MSG_ERROR([lua interpreter is required]))
+    AX_LUAROCKS_ROCK(decasify)
     AX_LUAROCKS_ROCK(yaml)
 
     AC_PATH_PROG([PERL], [perl])

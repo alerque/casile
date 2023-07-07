@@ -172,7 +172,7 @@ SILEPATH += $(CASILEDIR)
 # Extra arguments to pass to Pandoc
 PANDOCARGS ?= --wrap=preserve --markdown-headings=atx --top-level-division=chapter
 PANDOCARGS += --reference-location=section
-PANDOCFILTERS ?=
+PANDOCFILTERS ?= --lua-filter=$(CASILEDIR)/pandoc-filters/titlecase_titles.lua
 PANDOCFILTERARGS ?= --from markdown-space_in_atx_header+ascii_identifiers+four_space_rule --to markdown-smart-four_space_rule
 
 # For when perl one-liners need Unicode compatibility
