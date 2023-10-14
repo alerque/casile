@@ -24,8 +24,11 @@ export CASILE=~/projects/sile-typesetter/casile/casile; alias casile="$CASILE"
 ${CASILE} -l tr make -- -B ${FILE}
 popd
 
-@M4@ ${FILTERS} ${WT}/${FILE} | @GIT@ hash-object --stdin -w | read A
-@M4@ ${FILTERS} ${FILE} | @GIT@ hash-object --stdin -w | read B
+${CASILE} -l tr make -- -B ${FILE}
+mv ${FILE} ${FILE}.orig
+
+@GIT@ hash-object -w -- ${WT}/${FILE} | read A
+@GIT@ hash-object -w -- ${FILE}.orig | read B
 
 if @GIT@ diff ${A}..${B} --quiet; then
     @GIT@ show ${B}
