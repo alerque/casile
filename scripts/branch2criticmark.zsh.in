@@ -1,15 +1,28 @@
 #!@ZSH@
 
+set -x
+
 CASILEDIR=$(cd "$(dirname $0)/../" && pwd)
 
 BRANCH=${1}
 FILE=${2}
 WT=$(mktemp -d -u worktree-diff.XXXXXX)
 
-trap 'rm -rf ${WT}' EXIT SIGHUP SIGTERM
+# trap 'rm -rf ${WT}' EXIT SIGHUP SIGTERM
 
 @GIT@ worktree prune > /dev/null
 @GIT@ worktree add --detach ${WT} ${BRANCH} > /dev/null
+
+pushd ${WT}
+rm -rf ccm_toolkit
+ln -sf ../ccm_toolkit ./
+
+export SILE_PATH=~/projects/sile-typesetter/sile
+export SILE=~/projects/sile-typesetter/sile/sile; alias sile="$SILE"
+export CASILE=~/projects/sile-typesetter/casile/casile; alias casile="$CASILE"
+
+${CASILE} -l tr make -- ${FILE}
+popd
 
 @M4@ ${FILTERS} ${WT}/${FILE} | @GIT@ hash-object --stdin -w | read A
 @M4@ ${FILTERS} ${FILE} | @GIT@ hash-object --stdin -w | read B
