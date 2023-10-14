@@ -508,7 +508,7 @@ preprocess_macros = $(CASILEDIR)/casile.m4 $(M4MACROS) $(PROJECTMACRO) $(TARGETM
 $(BUILDDIR)/%-$(_processed).md: %.md $$(wildcard $(PROJECT)*.md $$*-$(_chapters)/*.md) $$(call preprocess_macros,$$*) | $(BUILDDIR) figures
 	if $(HIGHLIGHT_DIFF) && $(if $(PARENT),true,false); then
 		export FILTERS="$(filter %.m4,$^)"
-		branch2criticmark.zsh $(PARENT) $<
+		branch2criticmark.zsh $(PARENT) $@
 	else
 		$(M4) $(filter %.m4,$^) $<
 	fi |
