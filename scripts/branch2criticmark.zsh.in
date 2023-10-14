@@ -13,18 +13,18 @@ WT=$(mktemp -d -u worktree-diff.XXXXXX)
 @GIT@ worktree prune > /dev/null
 @GIT@ worktree add --detach ${WT} ${BRANCH} > /dev/null
 
-pushd ${WT}
-rm -rf ccm_toolkit
-ln -sf ../ccm_toolkit ./
-
 export SILE_PATH=~/projects/sile-typesetter/sile
 export SILE=~/projects/sile-typesetter/sile/sile; alias sile="$SILE"
 export CASILE=~/projects/sile-typesetter/casile/casile; alias casile="$CASILE"
 
-${CASILE} -l tr make -- -B ${FILE}
+pushd ${WT}
+rm -rf ccm_toolkit
+ln -sf ../ccm_toolkit ./
+
+${CASILE} -l tr make -- -B ${FILE} HIGHLIGHT_DIFF=false
 popd
 
-${CASILE} -l tr make -- -B ${FILE}
+${CASILE} -l tr make -- -B ${FILE} HIGHLIGHT_DIFF=false
 mv ${FILE} ${FILE}.orig
 
 @GIT@ hash-object -w -- ${WT}/${FILE} | read A
