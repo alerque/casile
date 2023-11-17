@@ -457,7 +457,7 @@ $(FULLSILS): $(BUILDDIR)/%.sil:
 			-V versioninfo="$(call versioninfo,$@)" \
 			-V urlinfo="$(call urlinfo,$@)" \
 			-V qrimg="./$(filter %-url.png,$^)" \
-			$(foreach LUA,$(call reverse,$(filter %.lua,$|)), -V script=$(subst $(CASILEDIR)/,,$(basename $(LUA)))) \
+			$(foreach LUA,$(call reverse,$(filter %.lua,$|)), -V module=$(subst $(PUBLISHERDIR)/,,$(subst $(CASILEDIR)/,,$(basename $(LUA))))) \
 			--template=$(filter %.sil,$^) \
 			--from=markdown \
 			--to=sile \

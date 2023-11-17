@@ -116,11 +116,8 @@ end)
 $if(links-as-notes)$
 $endif$
 \end{script}
-$for(include)$
-\include[src=$include$]
-$endfor$
-$for(script)$
-\script[src=$script$]
+$for(module)$
+\use[module=$module$]
 $endfor$
 \halftitlepage
 \titlepage
