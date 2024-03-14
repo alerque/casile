@@ -213,7 +213,10 @@ fn dump_backlog(backlog: &[String]) {
     let start = LocalText::new("make-backlog-start").fmt();
     let start = format!("{} {start}\n", style(style("┄┄┄┄┄┄").cyan()));
     dump.push_str(start.as_str());
+    let backlog_dump_file = ".casile/backlog_dump";
+    let mut backlog_dump_file = std::fs::File::create(backlog_dump_file).unwrap();
     for line in backlog.iter() {
+        write!(backlog_dump_file, "{line}\n").unwrap();
         dump.push_str(line.as_str());
         dump.push('\n');
     }
