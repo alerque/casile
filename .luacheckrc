@@ -24,22 +24,9 @@ files["spec"] = {
 }
 
 files["pandoc-filters"] = {
-   globals = {
-      "Block",
-      "Header",
-      "Inline",
-      "Link",
-      "Note",
-      "Pandoc",
-      "pandoc",
-   },
-   ignore = { "4.2" },
+   std = "+pandoc_filter",
 }
 
 files["lib"] = {
-   globals = {
-      "lpeg",
-      "pandoc",
-      "Reader"
-   }
+   std = "+pandoc_reader+pandoc_writer",
 }
