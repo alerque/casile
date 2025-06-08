@@ -81,12 +81,34 @@ pub fn run(target: Vec<String>) -> Result<()> {
     process = process.cwd(workdir);
     let process = process.stderr(Redirection::Merge).stdout(Redirection::Pipe);
     let mut popen = process.popen()?;
-    let buf = io::BufReader::new(popen.stdout.as_mut().unwrap());
-    let seps = Regex::new(r"").unwrap();
-    for line in buf.lines() {
-        let text: &str =
-            &line.unwrap_or_else(|_| String::from("INVALID UTF-8 FROM CHILD PROCESS STREAM"));
-        let fields: Vec<&str> = seps.splitn(text, 4).collect();
+    let mut buf = io::BufReader::new(popen.stdout.as_mut().unwrap());
+    let seps = Regex::new(r"").unwrap();
+
+    // Read line by line as bytes first
+    let mut byte_line = Vec::new();
+    while buf.read_until(b'\n', &mut byte_line).unwrap_or(0) > 0 {
+        let text = match std::str::from_utf8(&byte_line) {
+            Ok(s) => s.to_string(),
+            Err(e) => {
+                eprintln!("Invalid UTF-8 in line: {:?}", e);
+                // Print hex dump of the problematic bytes
+                eprintln!("Raw bytes (hex):");
+                for (i, &b) in byte_line.iter().enumerate() {
+                    eprint!("{:02x} ", b);
+                    if (i + 1) % 16 == 0 {
+                        eprintln!();
+                    }
+                }
+                eprintln!();
+
+                // Try to recover what we can with lossy conversion
+                let text = String::from_utf8_lossy(&byte_line).to_string();
+                eprintln!("Recovered with replacement: {}", text);
+                text
+            }
+        };
+
+        let fields: Vec<&str> = seps.splitn(&text, 4).collect();
         match fields[0] {
             "CASILE" => match fields[1] {
                 "PRE" => {
@@ -160,6 +182,7 @@ pub fn run(target: Vec<String>) -> Result<()> {
                 ));
             }
         }
+        byte_line.clear(); // Reuse the buffer
     }
     let status = popen.wait();
     let ret = match status {
